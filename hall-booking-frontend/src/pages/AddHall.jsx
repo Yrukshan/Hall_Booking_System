@@ -12,7 +12,10 @@ function AddHall() {
     hasWhiteboard: false,
   });
 
-  // handle input change
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // input change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -22,18 +25,42 @@ function AddHall() {
     });
   };
 
-  // submit form
+  // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
       const response = await API.post("/production/hall/save", hall);
-      console.log("Saved:", response.data);
 
       alert("Hall Added Successfully!");
+      console.log("Saved:", response.data);
+
+      // reset form
+      setHall({
+        name: "",
+        description: "",
+        location: "",
+        capacity: "",
+        hasProjector: false,
+        hasAc: false,
+        hasWhiteboard: false,
+      });
+
     } catch (error) {
       console.log(error);
-      alert("Failed to add hall");
+
+      // Extract backend message safely
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Something went wrong";
+
+      setError(message);
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,9 +68,15 @@ function AddHall() {
     <div style={{ padding: "20px" }}>
       <h2>Add New Hall</h2>
 
+      {/* ERROR DISPLAY */}
+      {error && (
+        <div style={{ color: "red", marginBottom: "10px" }}>
+           {error}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit}>
 
-        {/* Name */}
         <input
           type="text"
           name="name"
@@ -53,7 +86,6 @@ function AddHall() {
         />
         <br /><br />
 
-        {/* Description */}
         <input
           type="text"
           name="description"
@@ -63,7 +95,6 @@ function AddHall() {
         />
         <br /><br />
 
-        {/* Location */}
         <input
           type="text"
           name="location"
@@ -73,7 +104,6 @@ function AddHall() {
         />
         <br /><br />
 
-        {/* Capacity */}
         <input
           type="number"
           name="capacity"
@@ -83,7 +113,6 @@ function AddHall() {
         />
         <br /><br />
 
-        {/* Checkboxes */}
         <label>
           <input
             type="checkbox"
@@ -120,9 +149,10 @@ function AddHall() {
 
         <br /><br />
 
-        <button type="submit">
-          Add Hall
+        <button type="submit" disabled={loading}>
+          {loading ? "Saving..." : "Add Hall"}
         </button>
+
       </form>
     </div>
   );
