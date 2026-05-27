@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 function BookingList() {
   const [bookings, setBookings] = useState([]);
@@ -23,7 +24,7 @@ function BookingList() {
     navigate(`/update-booking?id=${id}`);
   };
 
-  // ✅ VERIFY / CANCEL
+  // VERIFY / CANCEL
   const updateStatus = async (id, status) => {
     try {
       await API.post("/production/booking/update/status", {
@@ -43,6 +44,7 @@ function BookingList() {
 
   return (
     <div style={{ padding: "20px" }}>
+        <Navbar />
       <h2>Booking List</h2>
 
       <table border="1" cellPadding="10" width="100%">

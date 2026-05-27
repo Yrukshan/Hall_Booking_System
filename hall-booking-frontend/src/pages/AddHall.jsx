@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../api/axios";
+import Navbar from "../components/Navbar";
 
 function AddHall() {
   const [hall, setHall] = useState({
@@ -66,6 +67,7 @@ function AddHall() {
 
   return (
     <div style={{ padding: "20px" }}>
+        <Navbar />
       <h2>Add New Hall</h2>
 
       {/* ERROR DISPLAY */}
