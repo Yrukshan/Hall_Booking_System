@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../api/axios";
+import Navbar from "../components/Navbar";
 
 function AddBooking() {
   const [booking, setBooking] = useState({
@@ -56,6 +57,7 @@ function AddBooking() {
 
   return (
     <div style={{ padding: "20px" }}>
+        <Navbar />
       <h2>Create Booking</h2>
 
       <form onSubmit={handleSubmit}>

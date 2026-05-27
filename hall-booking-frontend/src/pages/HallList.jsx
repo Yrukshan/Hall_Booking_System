@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllHalls } from "../services/hallService";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 function HallList() {
   const [halls, setHalls] = useState([]);
@@ -25,6 +26,7 @@ function HallList() {
 
   return (
     <div style={{ padding: "20px" }}>
+        <Navbar />
       <h2>Hall List</h2>
 
       <table border="1" cellPadding="10" width="100%">
